@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] float _speed;
 
+    [SerializeField] GameObject _projectilePrefab;
+
     [SerializeField] float _topBoundary = 3.8f;
     [SerializeField] float _bottomBoundary = -4f;
     [SerializeField] float _leftBoundary = -8.5f;
@@ -21,6 +23,13 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
+        if (Input.GetButtonDown("Fire1"))
+            Fire();
+    }
+
+    void Fire()
+    {
+        Instantiate(_projectilePrefab, transform.position + new Vector3(1f, 0, 0), Quaternion.identity);
     }
 
     void Movement()
