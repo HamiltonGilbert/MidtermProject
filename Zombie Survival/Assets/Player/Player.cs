@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] float _leftBoundary = -8.5f;
     [SerializeField] float _rightBoundary = 8.5f;
     // Start is called before the first frame update
+
     void Start()
     {
 
@@ -23,13 +24,24 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
+        Rotation();
         if (Input.GetButtonDown("Fire1"))
             Fire();
     }
 
+    void Rotation()
+    {
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 direction = mousePosition - transform.position;
+        float angle = Vector2.SignedAngle(Vector2.right, direction);
+        transform.eulerAngles = new Vector3(0, 0, angle);
+        // used code from this article: https://gamedevbeginner.com/make-an-object-follow-the-mouse-in-unity-in-2d/#look_at_mouse_2Ds
+    }
+
+
     void Fire()
     {
-        Instantiate(_projectilePrefab, transform.position + new Vector3(1f, 0, 0), Quaternion.identity);
+        Instantiate(_projectilePrefab, transform.position + new Vector3(1f, 0, 0), transform.rotation);
     }
 
     void Movement()
