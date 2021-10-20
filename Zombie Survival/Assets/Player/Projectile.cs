@@ -12,22 +12,27 @@ public class Projectile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
+        Movement();
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position += new Vector3(Time.deltaTime * _speed, 0, 0);
+        //transform.position += new Vector3(Time.deltaTime * _speed, 0, 0);
         //Movement();
         Despawn();
     }
 
     void Movement()
     {
-        Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        rigidBody.MovePosition(transform.position + input * Time.deltaTime * _speed);
-        // used code from unity documentation: https://docs.unity3d.com/ScriptReference/Rigidbody.MovePosition.html
+        rigidBody = GetComponent<Rigidbody2D>();
+
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 direction = mousePosition - transform.position;
+
+
+        rigidBody.velocity = new Vector2(1, direction.y/direction.x) * _speed;
+        rigidBody.gravityScale = 0;
     }
 
     void Despawn()

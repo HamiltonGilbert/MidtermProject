@@ -25,8 +25,8 @@ public class Player : MonoBehaviour
     {
         Movement();
         Rotation();
-        if (Input.GetButtonDown("Fire1"))
-            Fire();
+        //if (Input.GetButtonDown("Fire1"))
+        //    Fire();
     }
 
     void Rotation()
@@ -38,10 +38,9 @@ public class Player : MonoBehaviour
         // used code from this article: https://gamedevbeginner.com/make-an-object-follow-the-mouse-in-unity-in-2d/#look_at_mouse_2Ds
     }
 
-
     void Fire()
     {
-        Instantiate(_projectilePrefab, transform.position + new Vector3(1f, 0, 0), transform.rotation);
+        Instantiate(_projectilePrefab, transform.position, transform.rotation);
     }
 
     void Movement()
