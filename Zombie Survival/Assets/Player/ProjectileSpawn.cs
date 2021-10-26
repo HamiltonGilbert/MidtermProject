@@ -10,7 +10,7 @@ public class ProjectileSpawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -22,6 +22,11 @@ public class ProjectileSpawn : MonoBehaviour
 
     void Fire()
     {
-        Instantiate(_projectilePrefab, transform.position, transform.rotation);
+        
+        //if ((vector.z < 240 && vector.z > 120) || (vector.z > 300 || vector.z < 60))
+        //{
+            GameObject projectile = Instantiate(_projectilePrefab, transform.position, transform.rotation);
+            Vector3 vector = projectile.transform.eulerAngles;
+        //}
     }
 }

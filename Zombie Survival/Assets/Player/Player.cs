@@ -25,8 +25,8 @@ public class Player : MonoBehaviour
     {
         Movement();
         Rotation();
-        //if (Input.GetButtonDown("Fire1"))
-        //    Fire();
+        if (Input.GetButtonDown("Fire1"))
+            Fire();
     }
 
     void Rotation()
@@ -40,7 +40,11 @@ public class Player : MonoBehaviour
 
     void Fire()
     {
-        Instantiate(_projectilePrefab, transform.position, transform.rotation);
+        //if ((vector.z < 240 && vector.z > 120) || (vector.z > 300 || vector.z < 60))
+        //{
+        GameObject projectile = Instantiate(_projectilePrefab, transform.position, transform.rotation);
+        Vector3 vector = projectile.transform.eulerAngles;
+        //}
     }
 
     void Movement()

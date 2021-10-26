@@ -9,6 +9,8 @@ public class Projectile : MonoBehaviour
 
     private Rigidbody2D rigidBody;
 
+    private int _leftRight = 1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,20 +20,20 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.position += new Vector3(Time.deltaTime * _speed, 0, 0);
-        //Movement();
         Despawn();
     }
 
     void Movement()
     {
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
         rigidBody = GetComponent<Rigidbody2D>();
 
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        
         Vector2 direction = mousePosition - transform.position;
 
 
-        rigidBody.velocity = new Vector2(1, direction.y/direction.x) * _speed;
+        rigidBody.velocity = _leftRight * _speed * new Vector2(direction.x, direction.y).normalized;
         rigidBody.gravityScale = 0;
     }
 
@@ -41,5 +43,10 @@ public class Projectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void LeftRight(int i)
+    {
+        _leftRight = i;
     }
 }
