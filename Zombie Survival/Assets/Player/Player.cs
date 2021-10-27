@@ -42,8 +42,9 @@ public class Player : MonoBehaviour
     {
         //if ((vector.z < 240 && vector.z > 120) || (vector.z > 300 || vector.z < 60))
         //{
-        GameObject projectile = Instantiate(_projectilePrefab, transform.position, transform.rotation);
-        Vector3 vector = projectile.transform.eulerAngles;
+        Transform spawnPoint = transform.GetChild(0).GetChild(0);
+
+        Instantiate(_projectilePrefab, spawnPoint.position, transform.rotation);
         //}
     }
 

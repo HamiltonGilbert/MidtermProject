@@ -49,4 +49,13 @@ public class Projectile : MonoBehaviour
     {
         _leftRight = i;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Zombie")
+        {
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
+    }
 }
