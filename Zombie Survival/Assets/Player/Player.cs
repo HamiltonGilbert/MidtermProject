@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] GameObject _text;
 
     [SerializeField] float _speed;
 
@@ -35,17 +37,16 @@ public class Player : MonoBehaviour
         Vector2 direction = mousePosition - transform.position;
         float angle = Vector2.SignedAngle(Vector2.right, direction);
         transform.eulerAngles = new Vector3(0, 0, angle);
-        // used code from this article: https://gamedevbeginner.com/make-an-object-follow-the-mouse-in-unity-in-2d/#look_at_mouse_2Ds
+        // used some code from this article: https://gamedevbeginner.com/make-an-object-follow-the-mouse-in-unity-in-2d/#look_at_mouse_2Ds
     }
 
     void Fire()
     {
-        //if ((vector.z < 240 && vector.z > 120) || (vector.z > 300 || vector.z < 60))
-        //{
+        
         Transform spawnPoint = transform.GetChild(0).GetChild(0);
 
         Instantiate(_projectilePrefab, spawnPoint.position, transform.rotation);
-        //}
+        
     }
 
     void Movement()
@@ -70,5 +71,16 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(_leftBoundary, transform.position.y, 0);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Zombie")
+        {
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+            GameState.Instance.Lose();
+        }
+
     }
 }
