@@ -25,10 +25,20 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Movement();
-        Rotation();
-        if (Input.GetButtonDown("Fire1"))
-            Fire();
+        if (GameState.Instance._gameRunning)
+        {
+            GetComponent<SpriteRenderer>().enabled = true;
+            GetComponentInChildren<SpriteRenderer>().enabled = true;
+            Movement();
+            Rotation();
+            if (Input.GetButtonDown("Fire1"))
+                Fire();
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponentInChildren<SpriteRenderer>().enabled = false;
+        }
     }
 
     void Rotation()
@@ -79,7 +89,7 @@ public class Player : MonoBehaviour
         {
             Destroy(collision.gameObject);
             Destroy(gameObject);
-            GameState.Instance.Lose();
+            GameState.Instance.WaveEnd();
         }
 
     }

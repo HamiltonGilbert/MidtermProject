@@ -9,6 +9,8 @@ public class ZombieSpawner : MonoBehaviour
 
     [SerializeField] float _spawnRate = 1;
 
+    private bool _coroutineRunning;
+
     //private float _zombieHealth = 1;
     // Start is called before the first frame update
     void Start()
@@ -19,11 +21,20 @@ public class ZombieSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (! GameState.Instance._gameRunning)
+        {
+            StopCoroutine("Spawn");
+            _coroutineRunning = false;
+        }
+        else if (! _coroutineRunning)
+        {
+            StartCoroutine(Spawn(_spawnRate));
+        }
     }
 
     IEnumerator Spawn(float wait)
     {
+        _coroutineRunning = true;
         yield return new WaitForSeconds(_spawnRate);
         float y = Random.Range(-10, 10);
         float x;
@@ -48,6 +59,7 @@ public class ZombieSpawner : MonoBehaviour
         Instantiate(_zombie, spawn, Quaternion.identity);
         if (GameState.Instance._gameRunning)
             StartCoroutine(Spawn(wait * .5f));
+        Debug.Log(wait * .5f);
         
     }
 

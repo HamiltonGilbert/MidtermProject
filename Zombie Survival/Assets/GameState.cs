@@ -9,13 +9,19 @@ public class GameState : MonoBehaviour
 {
     [SerializeField] GameObject _text;
 
+    [SerializeField] GameObject _textInstructions;
+
+    [SerializeField] GameObject _upgradeMenu;
+
     [SerializeField] int _killsBeforeWin = 10;
 
-    [SerializeField] GameObject _textInstructions;
+    //[SerializeField] int _zombieIncrementor = 10;
 
     public bool _gameRunning = true;
 
-    public int _enemiesKilled = 0;
+    private int _enemiesKilled = 0;
+
+    public int _coins = 0;
 
     public static GameState Instance;
     // Start is called before the first frame update
@@ -23,8 +29,10 @@ public class GameState : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        _text.SetActive(false);
+        _textInstructions.GetComponent<Text>().text = "press \"return\" or \"enter\" to continue playing";
         _textInstructions.SetActive(false);
+        _text.SetActive(false);
+        _upgradeMenu.SetActive(false);
     }
 
     void Start()
@@ -37,7 +45,8 @@ public class GameState : MonoBehaviour
     {
         if (Input.GetButtonDown("Submit") && ! _gameRunning)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            _gameRunning = true;
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
@@ -47,8 +56,15 @@ public class GameState : MonoBehaviour
         _text.SetActive(true);
         _text.GetComponent<Text>().text = "Victory!";
         _textInstructions.SetActive(true);
-        _textInstructions.GetComponent<Text>().text = "press \"return\" or \"enter\" to play again";
     }
+
+    public void WaveEnd()
+    {
+        _gameRunning = false;
+        _upgradeMenu.SetActive(true);
+        _textInstructions.SetActive(true);
+    }
+
     public void Lose()
     {
         _gameRunning = false;
@@ -61,9 +77,11 @@ public class GameState : MonoBehaviour
     public void EnemyKilled()
     {
         _enemiesKilled++;
+        _coins++;
         if (_enemiesKilled >= _killsBeforeWin)
         {
-            Win();
+            //Win();
+            WaveEnd();
         }
     }
 }

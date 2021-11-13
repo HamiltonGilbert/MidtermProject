@@ -17,7 +17,15 @@ public class Zombie : MonoBehaviour
     void Update()
     {
         if (GameState.Instance._gameRunning)
+        {
+            GetComponent<SpriteRenderer>().enabled = true;
+            gameObject.SetActive(true);
             Movement();
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+        }
     }
 
     void Movement()
