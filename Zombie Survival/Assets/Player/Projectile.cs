@@ -49,16 +49,4 @@ public class Projectile : MonoBehaviour
     {
         _leftRight = i;
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Zombie")
-        {
-            GameState.Instance.EnemyKilled();
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
-        }
-
-    }
-
 }

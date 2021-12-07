@@ -6,7 +6,17 @@ public class Zombie : MonoBehaviour
 {
     private GameObject _player;
 
-    [SerializeField] float _speed = 1f;
+    public int _HP;
+
+    [SerializeField] float _speed;
+
+    void Awake()
+    {
+        _HP = GameState.Instance._zombieHP;
+
+        _speed = GameState.Instance._zombieSpeed;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,25 +28,41 @@ public class Zombie : MonoBehaviour
     {
         if (GameState.Instance._gameRunning)
         {
-            GetComponent<SpriteRenderer>().enabled = true;
+            //GetComponent<SpriteRenderer>().enabled = true;
             gameObject.SetActive(true);
             Movement();
         }
         else
         {
-            GetComponent<SpriteRenderer>().enabled = false;
+            Destroy(gameObject);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Projectile")
+        {
+            _HP -= GameState.Instance._gunDamage;
+
+            if (_HP <= 0)
+            {
+                GameState.Instance.EnemyKilled();
+                Destroy(gameObject);
+            }
+            Destroy(collision.gameObject);
+        }
+
     }
 
     void Movement()
     {
         // Calculate direction vector.
-        Vector3 dirction = transform.position - _player.transform.position;
+        Vector3 direction = transform.position - _player.transform.position;
 
         // Normalize resultant vector to unit Vector.
-        dirction = -dirction.normalized;
+        direction = -direction.normalized;
 
         // Move in the direction of the direction vector every frame.
-        transform.position += dirction * Time.deltaTime * _speed;
+        transform.position += direction * Time.deltaTime * _speed;
     }
 }

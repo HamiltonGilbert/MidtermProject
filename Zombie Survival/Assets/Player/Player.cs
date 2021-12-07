@@ -5,9 +5,7 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] GameObject _text;
-
-    [SerializeField] float _speed;
+    [SerializeField] GameObject _weapon;
 
     [SerializeField] GameObject _projectilePrefab;
 
@@ -15,6 +13,13 @@ public class Player : MonoBehaviour
     [SerializeField] float _bottomBoundary = -4f;
     [SerializeField] float _leftBoundary = -8.5f;
     [SerializeField] float _rightBoundary = 8.5f;
+
+    private float _speed;
+
+    private void Awake()
+    {
+        SpeedUpdate();
+    }
     // Start is called before the first frame update
 
     void Start()
@@ -28,7 +33,7 @@ public class Player : MonoBehaviour
         if (GameState.Instance._gameRunning)
         {
             GetComponent<SpriteRenderer>().enabled = true;
-            GetComponentInChildren<SpriteRenderer>().enabled = true;
+            _weapon.GetComponent<SpriteRenderer>().enabled = true;
             Movement();
             Rotation();
             if (Input.GetButtonDown("Fire1"))
@@ -37,8 +42,13 @@ public class Player : MonoBehaviour
         else
         {
             GetComponent<SpriteRenderer>().enabled = false;
-            GetComponentInChildren<SpriteRenderer>().enabled = false;
+            _weapon.GetComponent<SpriteRenderer>().enabled = false;
         }
+    }
+
+    void SpeedUpdate()
+    {
+        _speed = GameState.Instance._playerSpeed;
     }
 
     void Rotation()
@@ -87,8 +97,6 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Zombie")
         {
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
             GameState.Instance.WaveEnd();
         }
 
