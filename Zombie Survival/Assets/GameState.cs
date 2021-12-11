@@ -29,7 +29,7 @@ public class GameState : MonoBehaviour
 
     public bool _gameRunning = true;
 
-    private int _enemiesKilled = 0;
+    public int _enemiesKilled = 0;
 
     public int _coins = 0;
 
@@ -81,6 +81,7 @@ public class GameState : MonoBehaviour
         {
             _gameRunning = true;
             _upgradeMenu.SetActive(false);
+            _text.SetActive(false);
             _zombieSpeed = 2;
             _zombieHP = 1;
             _enemiesKilled = 0;
@@ -91,9 +92,23 @@ public class GameState : MonoBehaviour
     {
         _gameRunning = false;
         _text.SetActive(true);
-        _text.GetComponent<Text>().text = "Victory!";
-        _textInstructions.SetActive(true);
-    }
+        _text.GetComponent<Text>().text = "Victory! \n press \"return\" or \"enter\" to play again";
+
+        _coins = 0;
+        CoinUpdate("");
+
+        _speedCost = 4;
+
+        _gunCost = 10;
+
+        _gunBought = 0;
+
+        _speedBought = 0;
+
+        _gunDamage = 1;
+
+        _playerSpeed = 1f;
+}
 
     public void WaveEnd()
     {
@@ -118,8 +133,7 @@ public class GameState : MonoBehaviour
         CoinUpdate("");
         if (_enemiesKilled >= _killsBeforeWin)
         {
-            //Win();
-            WaveEnd();
+            Win();
         }
     }
 
